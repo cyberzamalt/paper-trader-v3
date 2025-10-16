@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Paper-Trader Multi • BTC/EUR</title>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+<header class="topbar">
+  <div class="container">
+    <h1>Paper-Trader Multi • <span>BTC/EUR</span></h1>
+    <div class="sub">Simulateur multi-lignes • Prix live (Kraken / Coinbase / Bitstamp) • Résumés J/S/M/A • Journal • Export/Import • Mode Actu</div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="panel" id="quick-add">
+    <div class="panel-title">Ajouter une ligne d'investissement</div>
+    <div class="row wrap">
+      <div class="field">
+        <label>Site</label>
+        <select id="qa-exch">
+          <option value="kraken">Kraken</option>
+          <option value="coinbase">Coinbase</option>
+          <option value="bitstamp">Bitstamp</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Actif</label>
+        <select id="qa-asset">
+          <option value="BTC-EUR">Bitcoin (BTC/EUR)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Mise (€)</label>
+        <input id="qa-stake" type="number" min="10" step="10" value="100"/>
+      </div>
+      <div class="row">
+        <button id="qa-enter" class="btn btn-accent">Entrer (créer + acheter)</button>
+        <button id="qa-clear" class="btn btn-muted">Réinitialiser le formulaire</button>
+      </div>
+      <div class="spacer"></div>
+      <div class="field">
+        <label>Rafraîchissement (s)</label>
+        <input id="refresh" type="number" min="3" step="1" value="5"/>
+      </div>
+      <div class="field">
+        <label>Frais (mode)</label>
+        <select id="fees-mode">
+          <option value="auto" selected>Auto (recommandé)</option>
+          <option value="custom">Personnalisé…</option>
+        </select>
+      </div>
+      <div id="fees-custom" class="row hidden">
+        <div class="field"><label>Kraken %</label><input id="fee-kraken" type="number" step="0.01" value="0.26"/></div>
+        <div class="field"><label>Coinbase %</label><input id="fee-coinbase" type="number" step="0.01" value="0.40"/></div>
+        <div class="field"><label>Bitstamp %</label><input id="fee-bitstamp" type="number" step="0.01" value="0.40"/></div>
+      </div>
+      <div class="fill"></div>
+      <div class="pill" id="last-update">Dernière mise à jour : —</div>
+    </div>
+    <div class="note">Crée plusieurs lignes (sites/montants différents). Chaque ligne est suivie et résumée <b>indépendamment</b>.</div>
+  </section>
+
+  <section class="grid prices">
+    <div class="panel price-card">
+      <div>
+        <div class="ex">Kraken</div>
+        <div class="muted"><span class="dot" id="dot-kraken"></span> <span id="st-kraken">init…</span></div>
+      </div>
+      <div class="price" id="p-kraken">—</div>
+    </div>
+    <div class="panel price-card">
+      <div>
+        <div class="ex">Coinbase</div>
+        <div class="muted"><span class="dot" id="dot-coinbase"></span> <span id="st-coinbase">init…</span></div>
+      </div>
+      <div class="price" id="p-coinbase">—</div>
+    </div>
+    <div class="panel price-card">
+      <div>
+        <div class="ex">Bitstamp</div>
+        <div class="muted"><span class="dot" id="dot-bitstamp"></span> <span id="st-bitstamp">init…</span></div>
+      </div>
+      <div class="price" id="p-bitstamp">—</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="row">
+      <button id="btn-export" class="btn">Exporter l’état (JSON)</button>
+      <button id="btn-import" class="btn">Importer un état</button>
+      <input id="file-import" type="file" accept="application/json,.json" class="hidden"/>
+      <label class="switch"><input id="news-toggle" type="checkbox"/><span class="slider"></span> Mode Actu (résumés auto)</label>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-title">Portefeuille (lignes indépendantes)</div>
+    <div id="portfolio" class="portfolio"></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-title">Détails & Résumés</div>
+    <div id="details">Sélectionne une ligne pour voir : P&L, résumés Jour/Semaine/Mois/Année et journal quotidien.</div>
+  </section>
+
+  <section class="panel" id="news-panel" style="display:none">
+    <div class="panel-title">Actu (explications possibles)</div>
+    <div id="news"></div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container muted">Tout est simulé (localStorage). Pas de conseil financier. © Paper-Trader v3</div>
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script src="assets/js/news.js"></script>
+</body>
+</html>
